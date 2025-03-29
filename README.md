@@ -13,7 +13,7 @@ ZTW Books is a Spring Boot application for managing a Library made for Advanced 
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/ztw-bookstore.git
+    git clone https://github.com/banacchini/ztw-books-backend.git
     ```
 2. Navigate to the project directory:
     ```sh
