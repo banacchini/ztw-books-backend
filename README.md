@@ -17,7 +17,7 @@ ZTW Books is a Spring Boot application for managing a Library made for Advanced 
     ```
 2. Navigate to the project directory:
     ```sh
-    cd ztw-bookstore
+    cd ztw-books-backend/books
     ```
 3. Build the project using Maven:
     ```sh
