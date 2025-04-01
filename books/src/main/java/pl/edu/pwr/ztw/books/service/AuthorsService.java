@@ -1,6 +1,7 @@
 package pl.edu.pwr.ztw.books.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import pl.edu.pwr.ztw.books.model.Author;
 
@@ -11,7 +12,8 @@ public class AuthorsService implements IAuthorsService {
     private static List<Author> authorsRepo = new ArrayList<>();
 
     @Autowired
-    private BooksService booksService;
+    @Lazy
+    private IBooksService booksService;
 
     static {
         authorsRepo.add(new Author(1, "Henryk Sienkiewicz"));
@@ -37,7 +39,8 @@ public class AuthorsService implements IAuthorsService {
 //        if (authorsRepo.stream().anyMatch(a -> a.getId() == author.getId())) {
 //            throw new IllegalArgumentException("Author ID already exists");
 //        }
-        author.setId(authorsRepo.get(authorsRepo.size() - 1).getId() + 1);
+        int nextId = authorsRepo.isEmpty() ? 1 : authorsRepo.get(authorsRepo.size() - 1).getId() + 1;
+        author.setId(nextId);
         authorsRepo.add(author);
     }
 

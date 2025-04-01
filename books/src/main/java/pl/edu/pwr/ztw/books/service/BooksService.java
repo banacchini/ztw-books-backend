@@ -1,6 +1,7 @@
 package pl.edu.pwr.ztw.books.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import pl.edu.pwr.ztw.books.model.Book;
 
@@ -14,10 +15,12 @@ public class BooksService implements IBooksService {
     private static List<Book> booksRepo = new ArrayList<>();
 
     @Autowired
-    private AuthorsService authorsService;
+    @Lazy
+    private IAuthorsService authorsService;
 
     @Autowired
-    private RentalsService rentalsService;
+    @Lazy
+    private IRentalsService rentalsService;
 
     static {
         booksRepo.add(new Book(1, "Potop", 1, 936));

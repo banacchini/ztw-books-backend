@@ -15,14 +15,14 @@ public class Rental {
     private Book book;
 
     @NotNull
-    private Reader reader;
+    private int readerID;
     private LocalDate rentalDate;
     private LocalDate returnDate;
 
-    public Rental(int id, Book book, Reader reader, LocalDate rentalDate, LocalDate returnDate) {
+    public Rental(int id, Book book, int readerID, LocalDate rentalDate, LocalDate returnDate) {
         this.id = id;
         this.book = book;
-        this.reader = reader;
+        this.readerID = readerID;
         this.rentalDate = rentalDate;
         this.returnDate = returnDate;
     }
@@ -41,12 +41,12 @@ public class Rental {
         this.book = book;
     }
 
-    public Reader getReader() {
-        return reader;
+    public int getReaderID() {
+        return readerID;
     }
 
-    public void setReader(Reader reader) {
-        this.reader = reader;
+    public void setReaderID(int readerID) {
+        this.readerID = readerID;
     }
 
     public LocalDate getRentalDate() {

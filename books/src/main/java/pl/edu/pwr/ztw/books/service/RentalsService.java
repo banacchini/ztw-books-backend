@@ -1,6 +1,7 @@
 package pl.edu.pwr.ztw.books.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import pl.edu.pwr.ztw.books.model.Book;
 import pl.edu.pwr.ztw.books.model.Rental;
@@ -15,7 +16,8 @@ public class RentalsService implements IRentalsService {
     private static List<Rental> rentalsRepo = new ArrayList<>();
 
     @Autowired
-    private BooksService booksService;
+    @Lazy
+    private IBooksService booksService;
 
     @Override
     public Collection<Rental> getRentals() {
