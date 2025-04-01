@@ -14,16 +14,16 @@ public class Book {
     @NotBlank
     private String title;
 
-    @NotEmpty(message = "Author cannot be empty")
-    private Author author;
+    @NotNull(message = "Author Id cannot be null")
+    private int author_id;
 
     @Min(value = 1, message = "Pages must be greater than 0")
     private int pages;
 
-    public Book(int id, String title, Author author, int pages) {
+    public Book(int id, String title, int author_id, int pages) {
         this.id = id;
         this.title = title;
-        this.author = author;
+        this.author_id = author_id;
         this.pages = pages;
     }
 
@@ -43,12 +43,12 @@ public class Book {
         this.title = title;
     }
 
-    public Author getAuthor() {
-        return author;
+    public int getAuthorId() {
+        return author_id;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setAuthorId(int author) {
+        this.author_id = author;
     }
 
     public int getPages() {

@@ -2,7 +2,6 @@ package pl.edu.pwr.ztw.books.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.edu.pwr.ztw.books.model.Author;
 import pl.edu.pwr.ztw.books.model.Book;
 
 import java.util.ArrayList;
@@ -17,10 +16,13 @@ public class BooksService implements IBooksService {
     @Autowired
     private AuthorsService authorsService;
 
+    @Autowired
+    private RentalsService rentalsService;
+
     static {
-        booksRepo.add(new Book(1, "Potop", new Author(1, "Henryk Sienkiewicz"), 936));
-        booksRepo.add(new Book(2, "Wesele", new Author(2, "Stanisław Reymont"), 150));
-        booksRepo.add(new Book(3, "Dziady", new Author(3, "Adam Mickiewicz"), 292));
+        booksRepo.add(new Book(1, "Potop", 1, 936));
+        booksRepo.add(new Book(2, "Wesele", 2, 150));
+        booksRepo.add(new Book(3, "Dziady", 3, 292));
     }
 
     @Override
@@ -41,9 +43,8 @@ public class BooksService implements IBooksService {
         if (booksRepo.stream().anyMatch(b -> b.getId() == book.getId())) {
             throw new IllegalArgumentException("Book ID already exists");
         }
-        Author author = book.getAuthor();
-        if (authorsService.getAuthor(author.getId()) == null) {
-            authorsService.addAuthor(author);
+        if (authorsService.getAuthor(book.getAuthorId()) == null) {
+            throw new NoSuchElementException("Author not found with ID: " + book.getAuthorId());
         }
         booksRepo.add(book);
     }
@@ -52,14 +53,20 @@ public class BooksService implements IBooksService {
     public void updateBook(int id, Book book) {
         Book existingBook = getBook(id);
         if (existingBook != null) {
+            if (authorsService.getAuthor(book.getAuthorId()) == null) {
+                throw new NoSuchElementException("Author not found with ID: " + book.getAuthorId());
+            }
             existingBook.setTitle(book.getTitle());
-            existingBook.setAuthor(book.getAuthor());
+            existingBook.setAuthorId(book.getAuthorId());
             existingBook.setPages(book.getPages());
         }
     }
 
     @Override
     public void deleteBook(int id) {
+        if (rentalsService.getRentals().stream().anyMatch(r -> r.getBook().getId() == id && r.getReturnDate() == null)) {
+            throw new IllegalArgumentException("Cannot delete book with ongoing rental");
+        }
         booksRepo.removeIf(b -> b.getId() == id);
     }
 }
