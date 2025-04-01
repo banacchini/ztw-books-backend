@@ -2,51 +2,49 @@ package pl.edu.pwr.ztw.books.model;
 
 import java.time.LocalDate;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 public class Rental {
 
     private int id;
 
     @NotNull
-    private Book book;
+    private int bookId;
 
     @NotNull
-    private int readerID;
+    private int readerId;
     private LocalDate rentalDate;
     private LocalDate returnDate;
 
-    public Rental(int id, Book book, int readerID, LocalDate rentalDate, LocalDate returnDate) {
+    public Rental(int id, int bookId, int readerId, LocalDate rentalDate, LocalDate returnDate) {
         this.id = id;
-        this.book = book;
-        this.readerID = readerID;
+        this.bookId = bookId;
+        this.readerId = readerId;
         this.rentalDate = rentalDate;
         this.returnDate = returnDate;
     }
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
 
-    public Book getBook() {
-        return book;
+    public int getBookId() {
+        return bookId;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBookId(int book) {
+        this.bookId = book;
     }
 
-    public int getReaderID() {
-        return readerID;
+    public int getReaderId() {
+        return readerId;
     }
 
-    public void setReaderID(int readerID) {
-        this.readerID = readerID;
+    public void setReaderId(int readerId) {
+        this.readerId = readerId;
     }
 
     public LocalDate getRentalDate() {

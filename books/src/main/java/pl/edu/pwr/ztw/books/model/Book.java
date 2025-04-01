@@ -18,7 +18,7 @@ public class Book {
     private int author_id;
 
     @Min(value = 1, message = "Pages must be greater than 0")
-    @Positive
+    @Positive(message = "Pages must be positive")
     private int pages;
 
     public Book(int id, String title, int author_id, int pages) {

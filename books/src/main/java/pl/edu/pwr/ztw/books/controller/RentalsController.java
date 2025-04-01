@@ -48,4 +48,21 @@ public class RentalsController {
         rentalsService.returnBook(id);
         return ResponseEntity.ok(Map.of("message", "Book returned successfully"));
     }
+
+    @RequestMapping(value = "/update/rental/{id}", method = RequestMethod.PUT)
+    @Operation(summary = "Update a rental", description = "Updates an existing rental.")
+    public ResponseEntity<Object> updateRental(
+            @Parameter(description = "ID of the rental to update") @PathVariable("id") int id,
+            @Valid @RequestBody Rental updatedRental) {
+        rentalsService.updateRental(id, updatedRental);
+        return ResponseEntity.ok(Map.of("message", "Rental updated successfully"));
+    }
+
+    @RequestMapping(value = "/delete/rental/{id}", method = RequestMethod.DELETE)
+    @Operation(summary = "Delete a rental", description = "Deletes an existing rental.")
+    public ResponseEntity<Object> deleteRental(
+            @Parameter(description = "ID of the rental to delete") @PathVariable("id") int id) {
+        rentalsService.deleteRental(id);
+        return ResponseEntity.ok(Map.of("message", "Rental deleted successfully"));
+    }
 }

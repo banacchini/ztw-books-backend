@@ -9,4 +9,6 @@ public interface IRentalsService {
     Rental getRental(int id);
     void rentBook(Rental rental);
     void returnBook(int id);
+    void updateRental(int id, Rental updatedRental);
+    void deleteRental(int id);
 }

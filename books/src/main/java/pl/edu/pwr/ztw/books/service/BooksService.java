@@ -49,13 +49,18 @@ public class BooksService implements IBooksService {
         if (authorsService.getAuthor(book.getAuthorId()) == null) {
             throw new NoSuchElementException("Author not found with ID: " + book.getAuthorId());
         }
+        int nextId = booksRepo.isEmpty() ? 1 : booksRepo.get(booksRepo.size() - 1).getId() + 1;
+        book.setId(nextId);
         booksRepo.add(book);
     }
 
     @Override
     public void updateBook(int id, Book book) {
         Book existingBook = getBook(id);
-        if (existingBook != null) {
+        if (existingBook == null) {
+            throw new NoSuchElementException("Book not found with ID: " + id);
+        }
+        else {
             if (authorsService.getAuthor(book.getAuthorId()) == null) {
                 throw new NoSuchElementException("Author not found with ID: " + book.getAuthorId());
             }
@@ -67,7 +72,10 @@ public class BooksService implements IBooksService {
 
     @Override
     public void deleteBook(int id) {
-        if (rentalsService.getRentals().stream().anyMatch(r -> r.getBook().getId() == id && r.getReturnDate() == null)) {
+        if (booksRepo.stream().noneMatch(b -> b.getId() == id)) {
+            throw new NoSuchElementException("Book not found with ID: " + id);
+        }
+        if (rentalsService.getRentals().stream().anyMatch(r -> r.getBookId() == id && r.getReturnDate() == null)) {
             throw new IllegalArgumentException("Cannot delete book with ongoing rental");
         }
         booksRepo.removeIf(b -> b.getId() == id);
