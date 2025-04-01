@@ -8,6 +8,7 @@ import pl.edu.pwr.ztw.books.model.Book;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class BooksService implements IBooksService {
@@ -32,7 +33,7 @@ public class BooksService implements IBooksService {
         return booksRepo.stream()
                 .filter(b -> b.getId() == id)
                 .findAny()
-                .orElse(null);
+                .orElseThrow(() -> new NoSuchElementException("Book not found with ID: " + id));
     }
 
     @Override

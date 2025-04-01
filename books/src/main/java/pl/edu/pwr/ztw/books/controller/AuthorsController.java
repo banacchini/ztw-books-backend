@@ -1,5 +1,8 @@
 package pl.edu.pwr.ztw.books.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,36 +11,49 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.pwr.ztw.books.model.Author;
 import pl.edu.pwr.ztw.books.service.IAuthorsService;
 
+import java.util.Map;
+
 @RestController
+@RequestMapping("/api/authors")
+@Tag(name = "Authors", description = "Endpoints for managing authors")
 public class AuthorsController {
     @Autowired
     IAuthorsService authorsService;
 
-    @RequestMapping(value = "/get/authors", method = RequestMethod.GET)
+    @GetMapping
+    @Operation(summary = "Get all authors", description = "Returns a list of all authors.")
     public ResponseEntity<Object> getAuthors() {
-        return new ResponseEntity<>(authorsService.getAuthors(), HttpStatus.OK);
+        return ResponseEntity.ok(authorsService.getAuthors());
     }
 
-    @RequestMapping(value = "/get/author/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getAuthor(@PathVariable("id") int id) {
-        return new ResponseEntity<>(authorsService.getAuthor(id), HttpStatus.OK);
+    @GetMapping("/{id}")
+    @Operation(summary = "Get author by ID", description = "Returns details of a specific author.")
+    public ResponseEntity<Object> getAuthor(
+            @Parameter(description = "ID of the author to retrieve") @PathVariable("id") int id) {
+        return ResponseEntity.ok(authorsService.getAuthor(id));
     }
 
     @RequestMapping(value = "/add/author", method = RequestMethod.POST)
+    @Operation(summary = "Add a new author", description = "Creates a new author.")
     public ResponseEntity<Object> addAuthor(@Valid @RequestBody Author author) {
         authorsService.addAuthor(author);
-        return new ResponseEntity<>("Author is created successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>(Map.of("message", "Author created successfully"), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/update/author/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> updateAuthor(@PathVariable("id") int id, @Valid @RequestBody Author author) {
+    @Operation(summary = "Update author details", description = "Updates an existing author's details.")
+    public ResponseEntity<Object> updateAuthor(
+            @Parameter(description = "ID of the author to update") @PathVariable("id") int id,
+            @Valid @RequestBody Author author) {
         authorsService.updateAuthor(id, author);
-        return new ResponseEntity<>("Author is updated successfully", HttpStatus.OK);
+        return ResponseEntity.ok(Map.of("message", "Author updated successfully"));
     }
 
     @RequestMapping(value = "/delete/author/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> deleteAuthor(@PathVariable("id") int id) {
+    @Operation(summary = "Delete author", description = "Deletes an author by ID.")
+    public ResponseEntity<Object> deleteAuthor(
+            @Parameter(description = "ID of the author to delete") @PathVariable("id") int id) {
         authorsService.deleteAuthor(id);
-        return new ResponseEntity<>("Author is deleted successfully", HttpStatus.OK);
+        return ResponseEntity.ok(Map.of("message", "Author deleted successfully"));
     }
 }

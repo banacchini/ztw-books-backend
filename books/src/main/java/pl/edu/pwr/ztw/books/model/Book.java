@@ -2,11 +2,16 @@ package pl.edu.pwr.ztw.books.model;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public class Book {
+
     private int id;
 
     @NotEmpty(message = "Title cannot be empty")
+    @NotBlank
     private String title;
 
     @NotEmpty(message = "Author cannot be empty")

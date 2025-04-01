@@ -3,9 +3,7 @@ package pl.edu.pwr.ztw.books.service;
 import org.springframework.stereotype.Service;
 import pl.edu.pwr.ztw.books.model.Author;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class AuthorsService implements IAuthorsService {
@@ -25,28 +23,32 @@ public class AuthorsService implements IAuthorsService {
     public Author getAuthor(int id) {
         return authorsRepo.stream()
                 .filter(a -> a.getId() == id)
-                .findAny()
-                .orElse(null);
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Author not found with ID: " + id));
     }
 
     @Override
     public void addAuthor(Author author) {
-        if (authorsRepo.stream().anyMatch(a -> a.getId() == author.getId())) {
-            throw new IllegalArgumentException("Author ID already exists");
-        }
+//        if (authorsRepo.stream().anyMatch(a -> a.getId() == author.getId())) {
+//            throw new IllegalArgumentException("Author ID already exists");
+//        }
+        author.setId(authorsRepo.get(authorsRepo.size() - 1).getId() + 1);
         authorsRepo.add(author);
     }
 
     @Override
     public void updateAuthor(int id, Author author) {
-        Author existingAuthor = getAuthor(id);
-        if (existingAuthor != null) {
-            existingAuthor.setName(author.getName());
+        Optional<Author> existingAuthor = authorsRepo.stream().filter(a -> a.getId() == id).findFirst();
+        if (existingAuthor.isEmpty()) {
+            throw new NoSuchElementException("Author not found with ID: " + id);
         }
+        existingAuthor.get().setName(author.getName());
     }
 
     @Override
     public void deleteAuthor(int id) {
-        authorsRepo.removeIf(a -> a.getId() == id);
+        if (!authorsRepo.removeIf(a -> a.getId() == id)) {
+            throw new NoSuchElementException("Author not found with ID: " + id);
+        }
     }
 }
