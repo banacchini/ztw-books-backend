@@ -3,8 +3,10 @@ package pl.edu.pwr.ztw.books.service;
 import pl.edu.pwr.ztw.books.model.Rental;
 
 import java.util.Collection;
+import java.util.Map;
 
 public interface IRentalsService {
+    Map<String, Object> getRentals(int page, int size);
     Collection<Rental> getRentals();
     Rental getRental(int id);
     void rentBook(Rental rental);

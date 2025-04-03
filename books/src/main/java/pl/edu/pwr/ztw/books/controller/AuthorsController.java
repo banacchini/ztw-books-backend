@@ -27,14 +27,20 @@ public class AuthorsController {
     @Operation(summary = "Get all authors", description = "Returns a list of all authors.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
+            @ApiResponse(responseCode = "400", description = "Page out of range"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<Object> getAuthors(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size
     ) {
-        List<Author> paginatedAuthors = authorsService.getAuthors(page, size);
-        return ResponseEntity.ok(paginatedAuthors);
+        Map<String, Object> response = authorsService.getAuthors(page, size);
+
+        if (response.containsKey("message")) {
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")

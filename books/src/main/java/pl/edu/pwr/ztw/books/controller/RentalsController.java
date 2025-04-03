@@ -27,10 +27,20 @@ public class RentalsController {
     @Operation(summary = "Get all rentals", description = "Returns a list of all rentals.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
+            @ApiResponse(responseCode = "400", description = "Page out of range"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<Object> getRentals() {
-        return ResponseEntity.ok(rentalsService.getRentals());
+    public ResponseEntity<Object> getRentals(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size
+    ) {
+        Map<String, Object> response = rentalsService.getRentals(page, size);
+
+        if (response.containsKey("message")) {
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
     @RequestMapping(value = "/get/rental/{id}", method = RequestMethod.GET)

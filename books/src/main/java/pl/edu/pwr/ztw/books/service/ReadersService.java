@@ -73,6 +73,27 @@ public class ReadersService implements IReadersService {
     }
 
     @Override
+    public Map<String, Object> getReaders(int page, int size) {
+        int totalReaders = readersRepo.size();
+        int totalPages = (int) Math.ceil((double) totalReaders / size);
+        int start = page * size;
+        int end = Math.min(start + size, totalReaders);
+
+        if (start > totalReaders) {
+            return Map.of("message", "Page out of range");
+        }
+
+        List<Reader> readers = readersRepo.subList(start, end);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("readers", readers);
+        response.put("currentPage", page);
+        response.put("totalPages", totalPages);
+
+        return response;
+    }
+
+    @Override
     public Reader getReader(int id) {
 
         return readersRepo.stream()

@@ -26,12 +26,21 @@ public class ReadersController {
     @RequestMapping(value = "/get/readers", method = RequestMethod.GET)
     @Operation(summary = "Get all readers", description = "Returns a list of all readers.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Book deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "Book not found"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
+            @ApiResponse(responseCode = "400", description = "Page out of range"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<Object> getReaders() {
-        return ResponseEntity.ok(readersService.getReaders());
+    public ResponseEntity<Object> getReaders(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size
+    ) {
+        Map<String, Object> response = readersService.getReaders(page, size);
+
+        if (response.containsKey("message")) {
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
     @RequestMapping(value = "/get/reader/{id}", method = RequestMethod.GET)

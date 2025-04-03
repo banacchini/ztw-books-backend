@@ -73,15 +73,24 @@ public class AuthorsService implements IAuthorsService {
     }
 
     @Override
-    public List<Author> getAuthors(int page, int size){
+    public Map<String, Object> getAuthors(int page, int size){
+        int totalAuthors = authorsRepo.size();
+        int totalPages = (int) Math.ceil((double) totalAuthors / size);
         int start = page * size;
-        int end = Math.min(start + size, authorsRepo.size());
+        int end = Math.min(start + size, totalAuthors);
 
-        if (start > authorsRepo.size()) {
-            return Collections.emptyList();
+        if (start > totalAuthors) {
+            return Map.of("message", "Page out of range");
         }
 
-        return authorsRepo.subList(start, end);
+        List<Author> authors = authorsRepo.subList(start, end);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("authors", authors);
+        response.put("currentPage", page);
+        response.put("totalPages", totalPages);
+
+        return response;
     }
 
     @Override

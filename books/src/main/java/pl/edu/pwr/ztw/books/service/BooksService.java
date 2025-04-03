@@ -3,12 +3,10 @@ package pl.edu.pwr.ztw.books.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import pl.edu.pwr.ztw.books.model.Author;
 import pl.edu.pwr.ztw.books.model.Book;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 public class BooksService implements IBooksService {
@@ -127,6 +125,27 @@ public class BooksService implements IBooksService {
     @Override
     public Collection<Book> getBooks() {
         return booksRepo;
+    }
+
+    @Override
+    public Map<String, Object> getBooks(int page, int size) {
+        int totalBooks = booksRepo.size();
+        int totalPages = (int) Math.ceil((double) totalBooks / size);
+        int start = page * size;
+        int end = Math.min(start + size, totalBooks);
+
+        if (start > totalBooks) {
+            return Map.of("message", "Page out of range");
+        }
+
+        List<Book> books = booksRepo.subList(start, end);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("books", books);
+        response.put("currentPage", page);
+        response.put("totalPages", totalPages);
+
+        return response;
     }
 
     @Override

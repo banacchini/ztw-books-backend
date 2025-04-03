@@ -26,10 +26,20 @@ public class BooksController {
     @Operation(summary = "Get all books", description = "Returns a list of all books.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
+            @ApiResponse(responseCode = "400", description = "Page out of range"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<Object> getBooks() {
-        return ResponseEntity.ok(booksService.getBooks());
+    public ResponseEntity<Object> getBooks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size
+    ) {
+        Map<String, Object> response = booksService.getBooks(page, size);
+
+        if (response.containsKey("message")) {
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
     @RequestMapping(value = "/get/book/{id}", method = RequestMethod.GET)

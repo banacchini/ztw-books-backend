@@ -3,15 +3,13 @@ package pl.edu.pwr.ztw.books.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import pl.edu.pwr.ztw.books.model.Author;
 import pl.edu.pwr.ztw.books.model.Book;
 import pl.edu.pwr.ztw.books.model.Reader;
 import pl.edu.pwr.ztw.books.model.Rental;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 public class RentalsService implements IRentalsService {
@@ -28,6 +26,27 @@ public class RentalsService implements IRentalsService {
     @Override
     public Collection<Rental> getRentals() {
         return rentalsRepo;
+    }
+
+    @Override
+    public Map<String, Object> getRentals(int page, int size) {
+        int totalRentals = rentalsRepo.size();
+        int totalPages = (int) Math.ceil((double) totalRentals / size);
+        int start = page * size;
+        int end = Math.min(start + size, totalRentals);
+
+        if (start > totalRentals) {
+            return Map.of("message", "Page out of range");
+        }
+
+        List<Rental> rentals = rentalsRepo.subList(start, end);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("rentals", rentals);
+        response.put("currentPage", page);
+        response.put("totalPages", totalPages);
+
+        return response;
     }
 
     @Override
