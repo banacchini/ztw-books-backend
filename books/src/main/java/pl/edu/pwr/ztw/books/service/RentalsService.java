@@ -48,6 +48,9 @@ public class RentalsService implements IRentalsService {
         if (reader == null) {
             throw new NoSuchElementException("Reader not found");
         }
+        if (isBookRented(book.getId())){
+            throw new IllegalArgumentException("Book is already rented");
+        }
         int nextId = rentalsRepo.isEmpty() ? 1 : rentalsRepo.get(rentalsRepo.size() - 1).getId() + 1;
         rental.setId(nextId);
         rental.setReturnDate(null);
@@ -95,5 +98,10 @@ public class RentalsService implements IRentalsService {
         }
 
         rentalsRepo.removeIf(r -> r.getId() == id);
+    }
+
+    public boolean isBookRented(int bookId){
+        return rentalsRepo.stream()
+                .anyMatch(r -> r.getBookId() == bookId && r.getReturnDate() == null);
     }
 }

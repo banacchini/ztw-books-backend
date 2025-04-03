@@ -11,4 +11,5 @@ public interface IRentalsService {
     void returnBook(int id);
     void updateRental(int id, Rental updatedRental);
     void deleteRental(int id);
+    boolean isBookRented(int bookId);
 }

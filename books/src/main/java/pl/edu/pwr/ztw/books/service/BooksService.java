@@ -75,7 +75,7 @@ public class BooksService implements IBooksService {
         if (booksRepo.stream().noneMatch(b -> b.getId() == id)) {
             throw new NoSuchElementException("Book not found with ID: " + id);
         }
-        if (rentalsService.getRentals().stream().anyMatch(r -> r.getBookId() == id && r.getReturnDate() == null)) {
+        if (rentalsService.isBookRented(id)) {
             throw new IllegalArgumentException("Cannot delete book with ongoing rental");
         }
         booksRepo.removeIf(b -> b.getId() == id);
