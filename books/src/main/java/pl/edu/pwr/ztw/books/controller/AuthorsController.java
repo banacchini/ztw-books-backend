@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.pwr.ztw.books.model.Author;
 import pl.edu.pwr.ztw.books.service.IAuthorsService;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -28,8 +29,12 @@ public class AuthorsController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<Object> getAuthors() {
-        return ResponseEntity.ok(authorsService.getAuthors());
+    public ResponseEntity<Object> getAuthors(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size
+    ) {
+        List<Author> paginatedAuthors = authorsService.getAuthors(page, size);
+        return ResponseEntity.ok(paginatedAuthors);
     }
 
     @GetMapping("/{id}")
