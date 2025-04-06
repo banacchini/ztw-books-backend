@@ -12,4 +12,5 @@ public interface IReadersService {
     void addReader(Reader reader);
     void updateReader(int id, Reader reader);
     void deleteReader(int id);
+    int getReadersCount();
 }

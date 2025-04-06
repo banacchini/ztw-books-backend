@@ -195,4 +195,9 @@ public class BooksService implements IBooksService {
         }
         booksRepo.removeIf(b -> b.getId() == id);
     }
+
+    @Override
+    public int getBooksCount() {
+        return booksRepo.size();
+    }
 }

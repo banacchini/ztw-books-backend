@@ -127,4 +127,9 @@ public class ReadersService implements IReadersService {
             throw new NoSuchElementException("Reader with id " + id + " not found");
         }
     }
+
+    @Override
+    public int getReadersCount() {
+        return readersRepo.size();
+    }
 }

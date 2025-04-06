@@ -119,8 +119,16 @@ public class RentalsService implements IRentalsService {
         rentalsRepo.removeIf(r -> r.getId() == id);
     }
 
+    @Override
     public boolean isBookRented(int bookId){
         return rentalsRepo.stream()
                 .anyMatch(r -> r.getBookId() == bookId && r.getReturnDate() == null);
+    }
+
+    @Override
+    public int getOngoingRentalsCount() {
+        return (int) rentalsRepo.stream()
+                .filter(r -> r.getReturnDate() == null)
+                .count();
     }
 }

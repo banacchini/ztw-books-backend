@@ -129,4 +129,9 @@ public class AuthorsService implements IAuthorsService {
             throw new NoSuchElementException("Author not found with ID: " + id);
         }
     }
+
+    @Override
+    public int getAuthorsCount() {
+        return authorsRepo.size();
+    }
 }

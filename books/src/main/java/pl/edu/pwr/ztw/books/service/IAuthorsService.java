@@ -13,4 +13,5 @@ public interface IAuthorsService {
     void addAuthor(Author author);
     void updateAuthor(int id, Author author);
     void deleteAuthor(int id);
+    int getAuthorsCount();
 }
