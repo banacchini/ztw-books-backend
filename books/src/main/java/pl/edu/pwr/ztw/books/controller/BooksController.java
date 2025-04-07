@@ -22,8 +22,18 @@ public class BooksController {
     @Autowired
     IBooksService booksService;
 
-    @RequestMapping(value = "/get/books", method = RequestMethod.GET)
+    @RequestMapping
     @Operation(summary = "Get all books", description = "Returns a list of all books.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<Object> getBooks() {
+        return ResponseEntity.ok(booksService.getBooks());
+    }
+
+    @RequestMapping(value = "/get/books", method = RequestMethod.GET)
+    @Operation(summary = "Get all books", description = "Returns a list of books by page.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
             @ApiResponse(responseCode = "400", description = "Page out of range"),

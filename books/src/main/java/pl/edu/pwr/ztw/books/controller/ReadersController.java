@@ -23,6 +23,17 @@ public class ReadersController {
     @Autowired
     IReadersService readersService;
 
+
+    @GetMapping
+    @Operation(summary = "Get all readers", description = "Returns a list of all readers.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<Object> getReaders() {
+        return ResponseEntity.ok(readersService.getReaders());
+    }
+
     @RequestMapping(value = "/get/readers", method = RequestMethod.GET)
     @Operation(summary = "Get all readers", description = "Returns a list of all readers.")
     @ApiResponses(value = {

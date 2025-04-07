@@ -30,6 +30,17 @@ public class AuthorsController {
             @ApiResponse(responseCode = "400", description = "Page out of range"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+    public ResponseEntity<Object> getAuthors() {
+        return ResponseEntity.ok(authorsService.getAuthors());
+    }
+
+    @GetMapping(value="/get/authors")
+    @Operation(summary = "Get all authors", description = "Returns a list of all authors.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
+            @ApiResponse(responseCode = "400", description = "Page out of range"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<Object> getAuthors(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size
@@ -39,7 +50,6 @@ public class AuthorsController {
         if (response.containsKey("message")) {
             return ResponseEntity.badRequest().body(response);
         }
-
         return ResponseEntity.ok(response);
     }
 
