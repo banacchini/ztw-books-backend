@@ -22,7 +22,7 @@ public class BooksController {
     @Autowired
     IBooksService booksService;
 
-    @RequestMapping
+    @GetMapping
     @Operation(summary = "Get all books", description = "Returns a list of all books.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
