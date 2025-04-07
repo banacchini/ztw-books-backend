@@ -35,7 +35,7 @@ public class RentalsService implements IRentalsService {
         rentalsRepo.add(new Rental(4, 5, 3, LocalDate.of(2025, 3, 23), null));
         rentalsRepo.add(new Rental(5, 14, 3, LocalDate.of(2025, 3, 23), LocalDate.of(2025, 3, 30)));
         rentalsRepo.add(new Rental(6, 11, 4, LocalDate.of(2025, 3, 23), null));
-        rentalsRepo.add(new Rental(7, 2, 5, LocalDate.of(2025, 4, 1), null));
+        rentalsRepo.add(new Rental(7, 14, 5, LocalDate.of(2025, 4, 1), null));
     }
 
     @Override
