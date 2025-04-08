@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.pwr.ztw.books.model.Rental;
 import pl.edu.pwr.ztw.books.service.IReadersService;
 import pl.edu.pwr.ztw.books.model.Reader;
 
@@ -104,5 +105,12 @@ public class ReadersController {
             @Parameter(description = "ID of the reader to delete") @PathVariable("id") int id) {
         readersService.deleteReader(id);
         return ResponseEntity.ok(Map.of("message", "Reader deleted successfully"));
+    }
+
+    @RequestMapping(value = "/get/reader/{id}/rentals", method = RequestMethod.GET)
+    public ResponseEntity<Object> getReaderRentals(
+            @Parameter(description = "ID of the reader to retrieve rentals for") @PathVariable("id") int id) {
+        Collection<Rental> rentals = readersService.getRentalsByReader(id);
+        return ResponseEntity.ok(rentals);
     }
 }

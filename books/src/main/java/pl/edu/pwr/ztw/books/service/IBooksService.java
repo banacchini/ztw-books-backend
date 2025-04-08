@@ -1,6 +1,7 @@
 package pl.edu.pwr.ztw.books.service;
 
 import pl.edu.pwr.ztw.books.model.Book;
+import pl.edu.pwr.ztw.books.model.Rental;
 
 import java.util.Collection;
 import java.util.Map;
@@ -14,5 +15,6 @@ public interface IBooksService {
     void deleteBook(int id);
     int getBooksCount();
     Collection<Book> getBooksByAuthor(int authorId);
+    Collection<Rental> getRentalsByBook(int bookId);
 
 }

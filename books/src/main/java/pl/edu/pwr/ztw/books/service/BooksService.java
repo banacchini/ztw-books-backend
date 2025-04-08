@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import pl.edu.pwr.ztw.books.model.Author;
 import pl.edu.pwr.ztw.books.model.Book;
+import pl.edu.pwr.ztw.books.model.Rental;
 
 import java.util.*;
 
@@ -204,5 +205,10 @@ public class BooksService implements IBooksService {
     @Override
     public Collection<Book> getBooksByAuthor(int authorId) {
         return booksRepo.stream().filter(book -> book.getAuthorId() == authorId).toList();
+    }
+
+    @Override
+    public Collection<Rental> getRentalsByBook(int bookId) {
+        return rentalsService.getRentalsByBook(bookId);
     }
 }

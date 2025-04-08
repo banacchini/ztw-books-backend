@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import pl.edu.pwr.ztw.books.model.Reader;
+import pl.edu.pwr.ztw.books.model.Rental;
 
 import java.util.*;
 
@@ -131,5 +132,10 @@ public class ReadersService implements IReadersService {
     @Override
     public int getReadersCount() {
         return readersRepo.size();
+    }
+
+    @Override
+    public Collection<Rental> getRentalsByReader(int readerId) {
+        return rentalsService.getRentalsByReader(readerId);
     }
 }

@@ -15,4 +15,6 @@ public interface IRentalsService {
     void deleteRental(int id);
     boolean isBookRented(int bookId);
     int getOngoingRentalsCount();
+    Collection<Rental> getRentalsByReader(int readerId);
+    Collection<Rental> getRentalsByBook(int bookId);
 }

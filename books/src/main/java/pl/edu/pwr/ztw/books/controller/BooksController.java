@@ -103,4 +103,17 @@ public class BooksController {
         booksService.deleteBook(id);
         return ResponseEntity.ok(Map.of("message", "Book deleted successfully"));
     }
+
+    @GetMapping(value = "/get/book/{bookId}/rentals")
+    @Operation(summary = "Get rentals by book", description = "Returns all rentals for a specific book.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved rentals"),
+            @ApiResponse(responseCode = "404", description = "Book not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<Object> getRentalsByBook(
+            @Parameter(description = "ID of the book to retrieve rentals for", required = true)
+            @PathVariable("bookId") int bookId) {
+        return ResponseEntity.ok(booksService.getRentalsByBook(bookId));
+    }
 }

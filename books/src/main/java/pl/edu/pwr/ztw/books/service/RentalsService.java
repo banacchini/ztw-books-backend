@@ -141,4 +141,18 @@ public class RentalsService implements IRentalsService {
                 .filter(r -> r.getReturnDate() == null)
                 .count();
     }
+
+    @Override
+    public Collection<Rental> getRentalsByReader(int readerId) {
+        return rentalsRepo.stream()
+                .filter(r -> r.getReaderId() == readerId)
+                .toList();
+    }
+
+    @Override
+    public Collection<Rental> getRentalsByBook(int bookId) {
+        return rentalsRepo.stream()
+                .filter(r -> r.getBookId() == bookId)
+                .toList();
+    }
 }
