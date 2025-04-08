@@ -13,5 +13,6 @@ public interface IBooksService {
     void updateBook(int id, Book book);
     void deleteBook(int id);
     int getBooksCount();
+    Collection<Book> getBooksByAuthor(int authorId);
 
 }

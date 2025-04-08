@@ -200,4 +200,9 @@ public class BooksService implements IBooksService {
     public int getBooksCount() {
         return booksRepo.size();
     }
+
+    @Override
+    public Collection<Book> getBooksByAuthor(int authorId) {
+        return booksRepo.stream().filter(book -> book.getAuthorId() == authorId).toList();
+    }
 }

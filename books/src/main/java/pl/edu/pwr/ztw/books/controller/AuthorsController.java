@@ -11,8 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.pwr.ztw.books.model.Author;
+import pl.edu.pwr.ztw.books.model.Book;
 import pl.edu.pwr.ztw.books.service.IAuthorsService;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -104,4 +106,11 @@ public class AuthorsController {
         authorsService.deleteAuthor(id);
         return ResponseEntity.ok(Map.of("message", "Author deleted successfully"));
     }
+
+    @GetMapping("/{authorId}/books")
+    public ResponseEntity<Object> getBooksByAuthor(@PathVariable("authorId") int authorId) {
+        return ResponseEntity.ok(authorsService.getBooksByAuthor(authorId));
+    }
+
+
 }

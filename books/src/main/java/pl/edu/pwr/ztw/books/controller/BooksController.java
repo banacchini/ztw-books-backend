@@ -33,7 +33,7 @@ public class BooksController {
     }
 
     @RequestMapping(value = "/get/books", method = RequestMethod.GET)
-    @Operation(summary = "Get all books", description = "Returns a list of books by page.")
+    @Operation(summary = "Get books by page", description = "Returns a list of books by page.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
             @ApiResponse(responseCode = "400", description = "Page out of range"),
